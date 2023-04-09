@@ -215,7 +215,7 @@ export default function Graficos() {
       <h1>
         <Link href="/" id="myLink" style={{fontSize: '1rem'}} >Voltar atrás</Link>
         
-        <a style={{fontSize: '1rem', marginLeft:'20px', marginRight:'10px'}} >Coloque na caixa a velocidade que quer reverber dados (1 / 2 / 3 / ...):</a>
+        <a style={{fontSize: '1rem', marginLeft:'20px', marginRight:'10px'}} >Coloque na caixa a velocidade que quer receber dados (1 / 2 / 3 / ...):</a>
         <input
           ref={inputRef}
           type="text"
