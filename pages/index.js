@@ -17,7 +17,7 @@ export default function Home() {
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, password)
         .then((response) => {
-            router.push('/posts/first-post')
+            router.push('graficos')
         })
         .catch(err => {
             alert('Cannot Log in')
