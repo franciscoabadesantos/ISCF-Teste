@@ -41,14 +41,11 @@ export default function Graficos() {
 
   /********* Criar um update em realtime **********/
   const [delay, setDelay] = useState(1000);
-  const [count, setCount] = useState(0);
   const [xArray, setUpdate1] = useState([]);
   const [yArray, setUpdate2] = useState([]); 
   const [zArray, setUpdate3] = useState([]); 
- // const [timeArray, setUpdate4] = useState([]);
-  // Increment the counter.
+
   useInterval(() => {
-   // setCount(count + 1);
     setUpdate1(xData.map(Number));
     setUpdate2(yData.map(Number));
     setUpdate3(zData.map(Number));
@@ -69,9 +66,6 @@ export default function Graficos() {
   let zData = [];
   let timestamps = []
 
-  //let xArray = [];
-  //let yArray = [];
-  //let zArray = [];
   let timeArray = [];
 
   /******* buscar os dados ao firebase sempre que houver modificação e retirar tudo o que não é dados para usar  *************/
@@ -79,13 +73,12 @@ export default function Graficos() {
   onValue(accelRef, (snapshot) => {
     const data = snapshot.val();       
     if (data) {
-      console.log(data)
+     // console.log(data)
       Object.keys(data).forEach((key) => {
         timestamps.push(data[key].data.timestamp);
         xData.push(data[key].data.x);
         yData.push(data[key].data.y); 
         zData.push(data[key].data.z);
-       // const transformedData = `timestamp:${data[key].data.timestamp}\nx:${data[key].data.x}\ny:${data[key].data.y}\nz:${data[key].data.z}`;
         
       });
     } else {
@@ -94,12 +87,13 @@ export default function Graficos() {
   }, (error) => { console.error(error); }
   );
 
- // xArray = xData.map(Number);
- // yArray = yData.map(Number);
- // zArray = zData.map(Number);
-  timeArray = timestamps.map(Number).map(num => num.toFixed(2)).map(number => number.toString());
+  timeArray = timestamps.map(Number).map(num => {
+    const newTimeStamp = (parseFloat(num) - timestamps.map(Number)[0]);
+    return newTimeStamp.toFixed(2);
+  } ).map(number => number.toString());
 
-  console.log( zArray);
+
+ // console.log( zArray);
 
 
 
@@ -176,8 +170,8 @@ export default function Graficos() {
         }
       },
       y: {
-          min: 0,
-          max: 1.6,
+       //   min: 0,
+       //   max: 1.6,
           ticks:{
             callback: (value) => value
           },
@@ -196,8 +190,8 @@ export default function Graficos() {
         }
       },
       y: {
-          min: -1,
-          max: 1,
+       //   min: -1,
+       //   max: 1,
           ticks:{
           //  stepSize: 2,
             callback: (value) => value
@@ -225,11 +219,15 @@ export default function Graficos() {
 
         />
         <button onClick={handleClick}>Update</button>
-        <a>Updated: {delay} {prevUpdated}</a>
       </h1>
-      <Line data = {graphx} options = {options1} ></Line>
-      <Line data = {graphy} options = {options2} ></Line>
-      <Line data = {graphz} options = {options3} ></Line>
+      <div style={{textAlign:'center', marginTop:'20px'}}>
+        <text >Grafico X: </text>
+        <Line data = {graphx} options = {options1} ></Line>
+        <text>Grafico Y: </text>
+        <Line data = {graphy} options = {options2} ></Line>
+        <text>Grafico Z: </text>
+        <Line data = {graphz} options = {options3} ></Line>
+      </div>
     </div>
   
   )
